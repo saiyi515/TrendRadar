@@ -1591,6 +1591,16 @@ class NewsAnalyzer:
             print(f"HTML报告已生成: {html_file}")
             print(f"最新报告已更新: output/html/latest/{self.report_mode}.html")
 
+        # 执行自定义分析
+        custom_analysis_result = None
+        try:
+            from extensions.custom_analysis import CustomAnalyzer
+            analyzer = CustomAnalyzer()
+            custom_analysis_result = analyzer.push_analysis()
+            print("[自定义分析] 集成到主流程成功")
+        except Exception as e:
+            print(f"[自定义分析] 集成失败: {e}")
+        
         # 发送通知
         if mode_strategy["should_send_notification"]:
             standalone_data = self._prepare_standalone_data(
